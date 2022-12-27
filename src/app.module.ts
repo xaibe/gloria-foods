@@ -1,13 +1,22 @@
+import { OrdersService } from './orders/orders.service';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD } from '@nestjs/core';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { OrdersModule } from './orders/orders.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), OrdersModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'Public'),
+    }),
+    OrdersModule,
+  ],
+
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,OrdersService],
 })
 export class AppModule {}

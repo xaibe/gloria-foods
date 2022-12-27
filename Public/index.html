@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">  
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script>
+   let filteredOrders = [];
+async function getOrders() {
+    try {
+ 
+  const uri = 'http://localhost:3000/orders'
+  const test1 = await axios.get(uri );
+
+  const orders = test1.data;
+   
+
+      console.log('orders', orders);
+let obj=""
+      orders.map((val)=>{
+        obj+=`
+            <tr>
+                <td> ${val.id}</td>
+                <td> ${val.type}</td>
+                <td> ${val.status}</td>
+                <td> ${val.fulfill_at}</td>
+            </tr>
+        `;
+    });
+    document.getElementById("demo").innerHTML = obj;
+
+      // for (let i = 0; i < orders.length; i++) {
+      //   const element = orders[i];
+      //   const obj = {
+      //     id: element.id,
+      //     type: element.type,
+      //     status: element.status,
+      //     fulfill_at: element.fulfill_at,
+      //   };
+        
+      //   console.log(obj)
+
+      //   document.getElementById("demo").innerHTML = obj;
+      //   filteredOrders.push(obj);
+      // }
+      // return filteredOrders;
+
+
+    } catch (error) {
+      console.log('error recieved', error);
+      throw error;
+    }
+  }
+</script>
+<body>
+ 
+
+<h2>A basic HTML table</h2>
+<div class="container">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">id#</th>
+        <th scope="col">Type</th>
+        <th scope="col">Status</th>
+        <th scope="col">Fulfill_At</th>
+      </tr>
+    </thead>
+    <tbody id="demo">
+      
+    </tbody>
+  </table>
+  <button class="btn btn-primary" onclick="getOrders()">test</button>
+</div>
+<p>{filteredOrders} To understand the example better, we have added borders to the table.</p>
+
+</body>
+</html>
